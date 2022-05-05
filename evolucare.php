@@ -8,7 +8,7 @@ $urlGlobal = 'https://covid19.mathdro.id/api';
 $curlConnectionFr = curl_init();
 curl_setopt($curlConnectionFr, CURLOPT_URL, $urlFr);
 curl_setopt($curlConnectionFr, CURLOPT_RETURNTRANSFER, true);
-$resultFr = curl_exec($urlFr);
+$resultFr = curl_exec($curlConnectionFr);
 curl_close($curlConnectionFr);
 
 
@@ -16,11 +16,11 @@ curl_close($curlConnectionFr);
 $curlConnection = curl_init();
 curl_setopt($curlConnection, CURLOPT_URL, $urlGlobal);
 curl_setopt($curlConnection, CURLOPT_RETURNTRANSFER, true);
-$result = curl_exec($urlGlobal);
+$result = curl_exec($curlConnection);
 curl_close($curlConnection);
 
-$jsonArrayResponseFr = json_decode($resultFr);
-$jsonArrayResponse   = json_decode($result);
+$jsonArrayResponseFr = json_decode($resultFr, false, 512, JSON_THROW_ON_ERROR);
+$jsonArrayResponse   = json_decode($result, false, 512, JSON_THROW_ON_ERROR);
 
 // FRANCE
 $confirmedFr  = $jsonArrayResponseFr->confirmed->value;
@@ -72,7 +72,7 @@ $dateUpdate = $dateNow->diff($date)->format('%H:%I:%S');
                         <p class="card-text">Le nombre de personnes afféctées dans le monde est <span class="donneeGlobal"> <?php echo $confirmed ?? '' ?></span></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-info">Rafraîchir</button>
+                                <button type="button"  onclick="fetchData()" class="btn btn-sm btn-outline-info">Rafraîchir</button>
                             </div>
                             <small class="text-muted">il y'a <?php echo $dateUpdate ?? '' ?></small>
                         </div>
@@ -90,7 +90,7 @@ $dateUpdate = $dateNow->diff($date)->format('%H:%I:%S');
                         <p class="card-text">Le nombre de personnes afféctées en FRANCE est <span id="donneeFR"> <?php echo $confirmedFr ?? '' ?></span></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-info">Rafraîchir</button>
+                                <button type="button"  onclick="fetchDataFr()"  class="btn btn-sm btn-outline-info">Rafraîchir</button>
                             </div>
                             <small class="text-muted">il y'a <?php echo $dateUpdate ?? '' ?></small>
                         </div>
@@ -108,7 +108,7 @@ $dateUpdate = $dateNow->diff($date)->format('%H:%I:%S');
                         <p class="card-text">Le nombre de personnes afféctées dans le monde est <span id="donneeGlobal"> <?php echo $confirmed ?? '' ?></span></p>
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="btn-group">
-                                <button type="button" class="btn btn-sm btn-outline-info">View</button>
+                                <button type="button" onclick="fetchData()" class="btn btn-sm btn-outline-info">rafraîchir</button>
                             </div>
                             <small class="text-muted"><small class="text-muted">il y'a <?php echo $dateUpdate ?? '' ?></small></small>
                         </div>
